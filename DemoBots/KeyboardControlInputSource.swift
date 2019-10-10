@@ -12,7 +12,7 @@ class KeyboardControlInputSource: ControlInputSourceType {
     // MARK: Properties
     
     /// The vector used to keep track of movement.
-    var currentDisplacement = float2()
+    var currentDisplacement = SIMD2<Float>()
     
     /// Bookkeeping to ignore repeating keys.
     var downKeys = Set<Character>()
@@ -35,10 +35,10 @@ class KeyboardControlInputSource: ControlInputSourceType {
     let allowsStrafing = false
     
     /// Values representing different relative motions the keyboard is capable of supplying.
-    static let forwardVector          = float2(x: 1, y: 0)
-    static let backwardVector         = float2(x: -1, y: 0)
-    static let clockwiseVector        = float2(x: 0, y: -1)
-    static let counterClockwiseVector = float2(x: 0, y: 1)
+    static let forwardVector          = SIMD2<Float>(x: 1, y: 0)
+    static let backwardVector         = SIMD2<Float>(x: -1, y: 0)
+    static let clockwiseVector        = SIMD2<Float>(x: 0, y: -1)
+    static let counterClockwiseVector = SIMD2<Float>(x: 0, y: 1)
     
     // MARK: Control Handling
     
@@ -76,7 +76,7 @@ class KeyboardControlInputSource: ControlInputSourceType {
                 Game focus navigation relies on strict 2D coordinates.
                 Translate the relative input into directional coordinates.
             */
-            let directionalVector = float2(x: -relativeDisplacement.y, y: relativeDisplacement.x)
+            let directionalVector = SIMD2<Float>(x: -relativeDisplacement.y, y: relativeDisplacement.x)
             if let direction = ControlInputDirection(vector: directionalVector) {
                 gameStateDelegate?.controlInputSource(self, didSpecifyDirection: direction)
             }
@@ -120,7 +120,7 @@ class KeyboardControlInputSource: ControlInputSourceType {
             
             if downKeys.isEmpty {
                 // Ensure that the `currentDisplacement` is zero if there are no keys pressed.
-                currentDisplacement = float2()
+                currentDisplacement = SIMD2<Float>()
             }
             
             if isDirectionalDisplacementVector(relativeDisplacement) {
@@ -149,7 +149,7 @@ class KeyboardControlInputSource: ControlInputSourceType {
     
     func resetControlState() {
         // Reset the `currentDisplacement` and clear the currently tracked keys.
-        currentDisplacement = float2()
+        currentDisplacement = SIMD2<Float>()
         downKeys.removeAll()
         
         delegate?.controlInputSource(self, didUpdateWithRelativeDisplacement: currentDisplacement)
@@ -158,13 +158,13 @@ class KeyboardControlInputSource: ControlInputSourceType {
     
     // MARK: Convenience
     
-    private func isDirectionalDisplacementVector(_ displacement: float2) -> Bool {
+    private func isDirectionalDisplacementVector(_ displacement: SIMD2<Float>) -> Bool {
         return displacement == KeyboardControlInputSource.forwardVector
             || displacement == KeyboardControlInputSource.backwardVector
     }
     
-    private func relativeDisplacementForCharacter(_ character: Character) -> float2? {
-        let mapping: [Character: float2] = [
+    private func relativeDisplacementForCharacter(_ character: Character) -> SIMD2<Float>? {
+        let mapping: [Character: SIMD2<Float>] = [
             // Up arrow.
             Character(UnicodeScalar(0xF700)!):   KeyboardControlInputSource.forwardVector,
             "w":                                 KeyboardControlInputSource.forwardVector,

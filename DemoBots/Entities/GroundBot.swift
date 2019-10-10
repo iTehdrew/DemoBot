@@ -46,7 +46,7 @@ class GroundBot: TaskBot, ChargeComponentDelegate, ResourceLoadableType {
     // MARK: GroundBot Properties
     
     /// The position in the scene that the `GroundBot` should target with its attack.
-    var targetPosition: float2?
+    var targetPosition: SIMD2<Float>?
     
     // MARK: Initialization
 

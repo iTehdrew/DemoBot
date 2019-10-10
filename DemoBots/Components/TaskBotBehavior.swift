@@ -50,7 +50,7 @@ class TaskBotBehavior: GKBehavior {
     }
     
     /// Constructs a behavior to return to the start of a `TaskBot` patrol path.
-    static func behaviorAndPathPoints(forAgent agent: GKAgent2D, returningToPoint endPoint: float2, pathRadius: Float, inScene scene: LevelScene) -> (behavior: GKBehavior, pathPoints: [CGPoint]) {
+    static func behaviorAndPathPoints(forAgent agent: GKAgent2D, returningToPoint endPoint: SIMD2<Float>, pathRadius: Float, inScene scene: LevelScene) -> (behavior: GKBehavior, pathPoints: [CGPoint]) {
         let behavior = TaskBotBehavior()
         
         // Add basic goals to reach the `TaskBot`'s maximum speed and avoid obstacles.
@@ -74,7 +74,7 @@ class TaskBotBehavior: GKBehavior {
         
         // Convert the patrol path to an array of `float2`s.
         
-        let pathVectorPoints = patrolPathPoints.map { float2($0) }
+        let pathVectorPoints = patrolPathPoints.map { SIMD2<Float>($0) }
         
         // Create a cyclical (closed) `GKPath` from the provided path points with the requested path radius.
         // GKPath(points: &pathVectorPoints, radius: <#T##Float#>, cyclical: <#T##Bool#>)
@@ -92,7 +92,7 @@ class TaskBotBehavior: GKBehavior {
         Calculates all of the extruded obstacles that the provided point resides near.
         The extrusion is based on the buffer radius of the pathfinding graph.
     */
-    private func extrudedObstaclesContaining(point: float2, inScene scene: LevelScene) -> [GKPolygonObstacle] {
+    private func extrudedObstaclesContaining(point: SIMD2<Float>, inScene scene: LevelScene) -> [GKPolygonObstacle] {
         /*
             Add a small fudge factor (+5) to the extrusion radius to make sure 
             we're including all obstacles.
@@ -129,7 +129,7 @@ class TaskBotBehavior: GKBehavior {
     
         Returns `nil` if a valid connection could not be made.
     */
-    private func connectedNode(forPoint point: float2, onObstacleGraphInScene scene: LevelScene) -> GKGraphNode2D? {
+    private func connectedNode(forPoint point: SIMD2<Float>, onObstacleGraphInScene scene: LevelScene) -> GKGraphNode2D? {
         // Create a graph node for this point.
         let pointNode = GKGraphNode2D(point: point)
         
@@ -167,7 +167,7 @@ class TaskBotBehavior: GKBehavior {
     }
     
     /// Pathfinds around obstacles to create a path between two points, and adds goals to follow that path.
-    private func addGoalsToFollowPath(from startPoint: float2, to endPoint: float2, pathRadius: Float, inScene scene: LevelScene) -> [CGPoint] {
+    private func addGoalsToFollowPath(from startPoint: SIMD2<Float>, to endPoint: SIMD2<Float>, pathRadius: Float, inScene scene: LevelScene) -> [CGPoint] {
         // Convert the provided `CGPoint`s into nodes for the `GPGraph`.
         guard let startNode = connectedNode(forPoint: startPoint, onObstacleGraphInScene: scene),
              let endNode = connectedNode(forPoint: endPoint, onObstacleGraphInScene: scene) else { return [] }

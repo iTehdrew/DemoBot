@@ -52,15 +52,15 @@ class InputComponent: GKComponent, ControlInputSourceDelegate {
     
     // MARK: ControlInputSourceDelegate
     
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateDisplacement displacement: float2) {
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateDisplacement displacement: SIMD2<Float>) {
         state.translation = MovementKind(displacement: displacement)
     }
     
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateAngularDisplacement angularDisplacement: float2) {
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateAngularDisplacement angularDisplacement: SIMD2<Float>) {
         state.rotation = MovementKind(displacement: angularDisplacement)
     }
     
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeDisplacement relativeDisplacement: float2) {
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeDisplacement relativeDisplacement: SIMD2<Float>) {
         /*
             Create a `MovementKind` instance indicating whether the displacement
             should translate the entity forwards or backwards from the direction
@@ -69,7 +69,7 @@ class InputComponent: GKComponent, ControlInputSourceDelegate {
         state.translation = MovementKind(displacement: relativeDisplacement, relativeToOrientation: true)
     }
     
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeAngularDisplacement relativeAngularDisplacement: float2) {
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeAngularDisplacement relativeAngularDisplacement: SIMD2<Float>) {
         /*
             Create a `MovementKind` instance indicating whether the displacement
             should rotate the entity clockwise or counter-clockwise from the direction

@@ -11,7 +11,7 @@ import simd
 enum ControlInputDirection: Int {
     case up = 0, down, left, right
     
-    init?(vector: float2) {
+    init?(vector: SIMD2<Float>) {
         // Require sufficient displacement to specify direction.
         guard length(vector) >= 0.5 else { return nil }
         
@@ -49,14 +49,14 @@ protocol ControlInputSourceDelegate: class {
             Left:  (-1.0, 0.0)
             Right: (1.0, 0.0)
     */
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateDisplacement displacement: float2)
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateDisplacement displacement: SIMD2<Float>)
     
     /**
         Update the `ControlInputSourceDelegate` with new angular displacement
         denoting both the requested angle, and magnitude with which to rotate.
         Measured in radians.
      */
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateAngularDisplacement angularDisplacement: float2)
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateAngularDisplacement angularDisplacement: SIMD2<Float>)
     
     /**
         Update the `ControlInputSourceDelegate` to move forward or backward
@@ -64,7 +64,7 @@ protocol ControlInputSourceDelegate: class {
             Forward:  (0.0, 1.0)
             Backward: (0.0, -1.0)
      */
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeDisplacement relativeDisplacement: float2)
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeDisplacement relativeDisplacement: SIMD2<Float>)
     
     /**
         Update the `ControlInputSourceDelegate` with new angular displacement
@@ -72,7 +72,7 @@ protocol ControlInputSourceDelegate: class {
             Clockwise:        (-1.0, 0.0)
             CounterClockwise: (1.0, 0.0)
      */
-    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeAngularDisplacement relativeAngularDisplacement: float2)
+    func controlInputSource(_ controlInputSource: ControlInputSourceType, didUpdateWithRelativeAngularDisplacement relativeAngularDisplacement: SIMD2<Float>)
     
     /// Instructs the `ControlInputSourceDelegate` to cause the player to attack.
     func controlInputSourceDidBeginAttacking(_ controlInputSource: ControlInputSourceType)

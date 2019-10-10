@@ -30,7 +30,7 @@ class GroundBotAttackState: GKState {
     }
     
     /// The `targetPosition` from the `entity`.
-    var targetPosition: float2 {
+    var targetPosition: SIMD2<Float> {
         guard let targetPosition = entity.targetPosition else { fatalError("A GroundBotRotateToAttackState's entity must have a targetPosition set.") }
         return targetPosition
     }
@@ -61,7 +61,7 @@ class GroundBotAttackState: GKState {
         let dy = targetPosition.y - entity.agent.position.y
 
         lastDistanceToTarget = hypot(dx, dy)
-        let targetVector = float2(x: Float(dx), y: Float(dy))
+        let targetVector = SIMD2<Float>(x: Float(dx), y: Float(dy))
 
         // `movementComponent` is a computed property. Declare a local version so we don't compute it multiple times.
         let movementComponent = self.movementComponent

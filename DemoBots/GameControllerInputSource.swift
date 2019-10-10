@@ -94,7 +94,7 @@ class GameControllerInputSource: ControlInputSourceType {
         /// An analog movement handler for D-pads and movement thumbsticks.
         let movementHandler: GCControllerDirectionPadValueChangedHandler = { [unowned self] _, xValue, yValue in
             // Move toward the direction of the axis.
-            let displacement = float2(x: xValue, y: yValue)
+            let displacement = SIMD2<Float>(x: xValue, y: yValue)
             
             self.delegate?.controlInputSource(self, didUpdateDisplacement: displacement)
             
@@ -129,7 +129,7 @@ class GameControllerInputSource: ControlInputSourceType {
         
             extendedGamepad.rightThumbstick.valueChangedHandler = { [unowned self] _, xValue, yValue in
                 // Rotate by the angle formed from the supplied axis.
-                let angularDisplacement = float2(x: xValue, y: yValue)
+                let angularDisplacement = SIMD2<Float>(x: xValue, y: yValue)
                 
                 self.delegate?.controlInputSource(self, didUpdateAngularDisplacement: angularDisplacement)
                 
@@ -154,7 +154,7 @@ class GameControllerInputSource: ControlInputSourceType {
             This allows for continuous scrolling while using game controllers.
         */
         guard let dpad = gameController.gamepad?.dpad else { return }
-        let dpadDisplacement = float2(x: dpad.xAxis.value, y: dpad.yAxis.value)
+        let dpadDisplacement = SIMD2<Float>(x: dpad.xAxis.value, y: dpad.yAxis.value)
         
         if let inputDirection = ControlInputDirection(vector: dpadDisplacement) {
             gameStateDelegate?.controlInputSource(self, didSpecifyDirection: inputDirection)
@@ -162,7 +162,7 @@ class GameControllerInputSource: ControlInputSourceType {
         }
         
         guard let thumbStick = gameController.extendedGamepad?.leftThumbstick else { return }
-        let thumbStickDisplacement = float2(x: thumbStick.xAxis.value, y: thumbStick.yAxis.value)
+        let thumbStickDisplacement = SIMD2<Float>(x: thumbStick.xAxis.value, y: thumbStick.yAxis.value)
         
         if let inputDirection = ControlInputDirection(vector: thumbStickDisplacement) {
             gameStateDelegate?.controlInputSource(self, didSpecifyDirection: inputDirection)

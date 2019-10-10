@@ -86,18 +86,18 @@ class TouchControlInputNode: SKSpriteNode, ThumbStickNodeDelegate, ControlInputS
     func thumbStickNode(thumbStickNode: ThumbStickNode, didUpdateXValue xValue: Float, yValue: Float) {
         // Determine which control this update is relevant to by comparing it to the references.
         if thumbStickNode === leftThumbStickNode {
-            let displacement = float2(x: xValue, y: yValue)
+            let displacement = SIMD2<Float>(x: xValue, y: yValue)
             delegate?.controlInputSource(self, didUpdateDisplacement: displacement)
         }
         else if thumbStickNode === rightThumbStickNode {
-            let displacement = float2(x: xValue, y: yValue)
+            let displacement = SIMD2<Float>(x: xValue, y: yValue)
             
             // Rotate the character only if the `thumbStickNode` is sufficiently displaced.
             if length(displacement) >= GameplayConfiguration.TouchControl.minimumRequiredThumbstickDisplacement {
                 delegate?.controlInputSource(self, didUpdateAngularDisplacement: displacement)
             }
             else {
-                delegate?.controlInputSource(self, didUpdateAngularDisplacement: float2())
+                delegate?.controlInputSource(self, didUpdateAngularDisplacement: SIMD2<Float>())
             }
         }
     }

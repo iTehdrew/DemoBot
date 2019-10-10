@@ -24,7 +24,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
         case followBadPatrolPath
 
         // Return to a given position on a patrol path.
-        case returnToPositionOnPath(float2)
+        case returnToPositionOnPath(SIMD2<Float>)
     }
 
     // MARK: Properties
@@ -50,7 +50,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
                     Set its mandate to `.ReturnToPositionOnPath` for the closest point on its "good" patrol path.
                 */
                 let closestPointOnGoodPath = closestPointOnPath(path: goodPathPoints)
-                mandate = .returnToPositionOnPath(float2(closestPointOnGoodPath))
+                mandate = .returnToPositionOnPath(SIMD2<Float>(closestPointOnGoodPath))
                 
                 if self is FlyingBot {
                     // Enter the `FlyingBotBlastState` so it performs a curing blast.
@@ -74,7 +74,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
                     This may be overridden by a `.HuntAgent` mandate when the `TaskBot`'s rules are next evaluated.
                 */
                 let closestPointOnBadPath = closestPointOnPath(path: badPathPoints)
-                mandate = .returnToPositionOnPath(float2(closestPointOnBadPath))
+                mandate = .returnToPositionOnPath(SIMD2<Float>(closestPointOnBadPath))
                 
                 // Update the animation component to use the "bad" animations.
                 animationComponent.animations = badAnimations
@@ -406,7 +406,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
                 default:
                     // Send the `TaskBot` to the closest point on its "bad" patrol path.
                     let closestPointOnBadPath = closestPointOnPath(path: badPathPoints)
-                    mandate = .returnToPositionOnPath(float2(closestPointOnBadPath))
+                    mandate = .returnToPositionOnPath(SIMD2<Float>(closestPointOnBadPath))
             }
         }
     }
@@ -427,7 +427,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
         return hypot(deltaX, deltaY)
     }
     
-    func distanceToPoint(otherPoint: float2) -> Float {
+    func distanceToPoint(otherPoint: SIMD2<Float>) -> Float {
         let deltaX = agent.position.x - otherPoint.x
         let deltaY = agent.position.y - otherPoint.y
         
@@ -438,7 +438,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
         // Find the closest point to the `TaskBot`.
         let taskBotPosition = agent.position
         let closestPoint = path.min {
-            return distance_squared(taskBotPosition, float2($0)) < distance_squared(taskBotPosition, float2($1))
+            return distance_squared(taskBotPosition, SIMD2<Float>($0)) < distance_squared(taskBotPosition, SIMD2<Float>($1))
         }
     
         return closestPoint!
@@ -450,7 +450,7 @@ class TaskBot: GKEntity, ContactNotifiableType, GKAgentDelegate, RulesComponentD
         let renderComponent = self.renderComponent
         
         let agentOffset = GameplayConfiguration.TaskBot.agentOffset
-        agent.position = float2(x: Float(renderComponent.node.position.x + agentOffset.x), y: Float(renderComponent.node.position.y + agentOffset.y))
+        agent.position = SIMD2<Float>(x: Float(renderComponent.node.position.x + agentOffset.x), y: Float(renderComponent.node.position.y + agentOffset.y))
     }
     
     /// Sets the `TaskBot` `GKAgent` rotation to match the `TaskBot`'s orientation.

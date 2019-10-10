@@ -27,7 +27,7 @@ class GroundBotRotateToAttackState: GKState {
     }
 
     /// The `targetPosition` from the `entity`.
-    var targetPosition: float2 {
+    var targetPosition: SIMD2<Float> {
         guard let targetPosition = entity.targetPosition else { fatalError("A GroundBotRotateToAttackState's entity must have a targetLocation set.") }
         return targetPosition
     }
@@ -95,10 +95,10 @@ class GroundBotRotateToAttackState: GKState {
         let targetPosition = self.targetPosition
         
         // Create a vector that represents the translation from the `GroundBot` to the target position.
-        let translationVector = float2(x: targetPosition.x - groundBotPosition.x, y: targetPosition.y - groundBotPosition.y)
+        let translationVector = SIMD2<Float>(x: targetPosition.x - groundBotPosition.x, y: targetPosition.y - groundBotPosition.y)
         
         // Create a unit vector that represents the angle the `GroundBot` is facing.
-        let angleVector = float2(x: cos(entityRotation), y: sin(entityRotation))
+        let angleVector = SIMD2<Float>(x: cos(entityRotation), y: sin(entityRotation))
         
         // Calculate dot and cross products.
         let dotProduct = dot(translationVector, angleVector)

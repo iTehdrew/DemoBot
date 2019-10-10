@@ -29,10 +29,10 @@ class BeamComponent: GKComponent {
         
         func angleTo(target: AntennaInfo) -> Float {
             // Create a vector that represents the translation to the target position.
-            let translationVector = float2(x: Float(target.position.x - position.x), y: Float(target.position.y - position.y))
+            let translationVector = SIMD2<Float>(x: Float(target.position.x - position.x), y: Float(target.position.y - position.y))
             
             // Create a unit vector that represents the rotation.
-            let angleVector = float2(x: cos(rotation), y: sin(rotation))
+            let angleVector = SIMD2<Float>(x: cos(rotation), y: sin(rotation))
             
             // Calculate the dot product.
             let dotProduct = dot(translationVector, angleVector)

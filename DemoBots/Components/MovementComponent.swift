@@ -32,11 +32,11 @@ struct MovementKind {
     let isRelativeToOrientation: Bool
     
     /// The movement to execute.
-    let displacement: float2
+    let displacement: SIMD2<Float>
     
     // MARK: Initializers
 
-    init(displacement: float2, relativeToOrientation: Bool = false) {
+    init(displacement: SIMD2<Float>, relativeToOrientation: Bool = false) {
         isRelativeToOrientation = relativeToOrientation
         self.displacement = displacement
     }
@@ -157,7 +157,7 @@ class MovementComponent: GKComponent {
     // MARK: Convenience Methods
     
     /// Creates a vector towards the current target of a `BeamComponent` attack (if one exists).
-    func vectorForBeamTowardsCurrentTarget() -> float2? {
+    func vectorForBeamTowardsCurrentTarget() -> SIMD2<Float>? {
         guard let beamComponent = entity?.component(ofType: BeamComponent.self) else { return nil }
         
         let target = (beamComponent.stateMachine.currentState as? BeamFiringState)?.target
@@ -165,13 +165,13 @@ class MovementComponent: GKComponent {
         let playerBotPosition = beamComponent.playerBotAntenna.position
         
         // Return a vector translating from the `taskBotPosition` to the `playerBotPosition`.
-        return float2(x: Float(taskBotPosition.x - playerBotPosition.x), y: Float(taskBotPosition.y - playerBotPosition.y))
+        return SIMD2<Float>(x: Float(taskBotPosition.x - playerBotPosition.x), y: Float(taskBotPosition.y - playerBotPosition.y))
     }
     
     /// Produces the destination point for the node, based on the provided translation.
     func pointForTranslatingNode(node: SKNode, withTranslationalMovement translation: MovementKind, duration: TimeInterval) -> CGPoint? {
         // No translation if the vector is a zeroVector.
-        guard translation.displacement != float2() else { return nil }
+        guard translation.displacement != SIMD2<Float>() else { return nil }
         
         var displacement = translation.displacement
         /*
@@ -197,7 +197,7 @@ class MovementComponent: GKComponent {
             between 0.0 and 1.0. In that case, we want to move the corresponding
             node relative to that amount of input.
         */
-        let normalizedDisplacement: float2
+        let normalizedDisplacement: SIMD2<Float>
         if length(displacement) > 1.0 {
             normalizedDisplacement = normalize(displacement)
         }
@@ -217,7 +217,7 @@ class MovementComponent: GKComponent {
     
     func angleForRotatingNode(node: SKNode, withRotationalMovement rotation: MovementKind, duration: TimeInterval) -> CGFloat? {
         // No rotation if the vector is a zeroVector.
-        guard rotation.displacement != float2() else { return nil }
+        guard rotation.displacement != SIMD2<Float>() else { return nil }
 
         let angle: CGFloat
         if rotation.isRelativeToOrientation {
@@ -263,7 +263,7 @@ class MovementComponent: GKComponent {
         Calculates a new vector by taking a relative displacement and adjusting 
         the angle to match the initial orientation and requested displacement.
     */
-    private func calculateAbsoluteDisplacementFromRelativeDisplacement(relativeDisplacement: float2) -> float2 {
+    private func calculateAbsoluteDisplacementFromRelativeDisplacement(relativeDisplacement: SIMD2<Float>) -> SIMD2<Float> {
         // If available use the `nextRotation` for the most recent request, otherwise use current `zRotation`.
         var angleRelativeToOrientation = Float(orientationComponent.zRotation)
       
@@ -280,10 +280,10 @@ class MovementComponent: GKComponent {
         // Make rotation correspond with relative movement, so that entities can walk and face the same direction.
         if nextRotation == nil {
             let directionFactor = Float(relativeDisplacement.x)
-            nextRotation = MovementKind(displacement: float2(x: directionFactor * dx, y: directionFactor * dy))
+            nextRotation = MovementKind(displacement: SIMD2<Float>(x: directionFactor * dx, y: directionFactor * dy))
         }
         
-        return float2(x: dx, y: dy)
+        return SIMD2<Float>(x: dx, y: dy)
     }
     
     /** 

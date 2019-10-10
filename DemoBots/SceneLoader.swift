@@ -207,7 +207,7 @@ class SceneLoader {
                 // Increase the priority for the requested scene because it is about to be presented.
                 bundleResourceRequest.loadingPriority = 0.8
                 #elseif os(OSX)
-                fatalError("Invalid `currentState`: \(stateMachine.currentState).")
+                fatalError("Invalid `currentState`: \(String(describing: stateMachine.currentState)).")
                 #endif
         }
         

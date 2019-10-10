@@ -225,6 +225,6 @@ class PlayerBot: GKEntity, ChargeComponentDelegate, ResourceLoadableType {
         let renderComponent = self.renderComponent
         
         let agentOffset = GameplayConfiguration.PlayerBot.agentOffset
-        agent.position = float2(x: Float(renderComponent.node.position.x + agentOffset.x), y: Float(renderComponent.node.position.y + agentOffset.y))
+        agent.position = SIMD2<Float>(x: Float(renderComponent.node.position.x + agentOffset.x), y: Float(renderComponent.node.position.y + agentOffset.y))
     }
 }
