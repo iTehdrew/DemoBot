@@ -1,5 +1,5 @@
 # DemoBot
-A clone of Apple's sample code game - [DemoBot](https://developer.apple.com/library/archive/samplecode/DemoBots/Introduction/Intro.html), which I've updated to compile with Swift 5 and Xcode 10.3. I tested the project on iOS 12.0 and macOS 10.14 (Mojave).
+A clone of Apple's sample code game - [DemoBot](https://developer.apple.com/library/archive/samplecode/DemoBots/Introduction/Intro.html), which I've updated to compile with Swift 5.1 and Xcode 11.1. I tested the project on iOS 12.0 and macOS 10.15 (Catalina).
 
 Please, take into account, **do not switch off** "Swift 3 @objc inference" in "Build settings" as Xcode recommends to you. After this project will not work properly.
 
